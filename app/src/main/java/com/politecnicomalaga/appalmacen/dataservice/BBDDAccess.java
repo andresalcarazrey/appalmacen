@@ -13,9 +13,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 public class BBDDAccess {
     // Configuración de la base de datos
-    private static final String URL = "jdbc:mysql://192.168.56.39:3306/almacen";
-    private static final String USER = "usuario";
-    private static final String PASS = "almacen123";
+    private static final String URL = "jdbc:mysql://192.168.55.52:3306/almacen";
+    private static final String USER = "almacen_user";
+    private static final String PASS = "onlyforyoureyes";
     private final ExecutorService executorService =
 
             Executors.newSingleThreadExecutor();

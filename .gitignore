@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+/infraestructura/.db_backup
+/infraestructura/.db_data
+/infraestructura/web

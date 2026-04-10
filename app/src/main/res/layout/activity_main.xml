@@ -67,6 +67,7 @@
             android:id="@+id/buAddProducto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Añadir"
             android:onClick="addProduct"/>
     </LinearLayout>
 

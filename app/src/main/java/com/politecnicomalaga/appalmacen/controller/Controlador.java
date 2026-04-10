@@ -23,7 +23,7 @@ public class Controlador {
     private Controlador(MainActivity miPantalla) {
         //BBDDAccess miBBDD = new BBDDAccess();
         this.miPantalla = miPantalla;
-        //products = miBBDD.listAll();//DataAccess_Old.loadData();
+        products = new ArrayList<>();//DataAccess_Old.loadData();
         expproducts = new ArrayList<>();
         //Poner código aquí para que la lista inicial de productos esté
         //siempre disponible cuando se arranca el programa.
@@ -39,32 +39,32 @@ public class Controlador {
         if (singleton == null) singleton = new Controlador(miPantalla);
         return singleton;
     }
-    public boolean addProduct(Map<String,String> datos) {
+    public void addProduct(Map<String,String> datos) {
 
-        final boolean[] resultado = {true};
+        boolean resultado = true;
 
         Producto p = new Producto(datos.get("code"),datos.get("descripcion"),Double.parseDouble(datos.get("precio")),Integer.parseInt(datos.get("stock")));
 
-        resultado[0] = products.add(p);
-        if (resultado[0]) {
+        resultado = products.add(p);
+        if (resultado) {
             BBDDAccess miBBDD = new BBDDAccess();
             miBBDD.insertarProducto(datos.get("code"), datos.get("descripcion"), Double.parseDouble(datos.get("precio")), Integer.parseInt(datos.get("stock")), new BBDDAccess.OnBBDDCallback() {
                 @Override
                 public void onSuccess(List<Producto> data) {
-                    resultado[0] = true;
+
+
                 }
 
                 @Override
                 public void onError(String error) {
-                    resultado[0] = false;
+
+                    miPantalla.reaccionar(error);
                 }
             });
-            if (!resultado[0]) {
+            if (!resultado) {
                 products.remove(p);
             }
         }
-
-        return resultado[0];
     }
 
     public void listarTodos() {
@@ -75,6 +75,8 @@ public class Controlador {
         miBBDD.listarTodos(new BBDDAccess.OnBBDDCallback() {
                 @Override
                 public void onSuccess(List<Producto> data) {
+                    //Actualizamos el modelo
+                    products = data;
                     //Convertir una lista de productos en una lista de maps
                     for(Producto p: data) {
                         Map<String,String> productoMapeado = new HashMap<>();
@@ -85,12 +87,13 @@ public class Controlador {
                         dataResult.add(productoMapeado);
                         //Avisar AHORA (estoy en el futuro!!!!!)
                         // al controlador y a la activity (Vista)
-                        miPantalla.reaccionar();
+                        miPantalla.reaccionar("");
                     }
                 }
 
                 @Override
                 public void onError(String error) {
+                    miPantalla.reaccionar(error);
                 }
             });
 
