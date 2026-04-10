@@ -57,8 +57,9 @@ public class Controlador {
 
                 @Override
                 public void onError(String error) {
-
-                    miPantalla.reaccionar(error);
+                    miPantalla.runOnUiThread(()->{
+                        miPantalla.reaccionar(error);
+                    });
                 }
             });
             if (!resultado) {
@@ -87,13 +88,19 @@ public class Controlador {
                         dataResult.add(productoMapeado);
                         //Avisar AHORA (estoy en el futuro!!!!!)
                         // al controlador y a la activity (Vista)
-                        miPantalla.reaccionar("");
+
                     }
+                    miPantalla.runOnUiThread(()->{
+                        miPantalla.reaccionar("");
+                    });
+
                 }
 
                 @Override
                 public void onError(String error) {
-                    miPantalla.reaccionar(error);
+                    miPantalla.runOnUiThread(()->{
+                        miPantalla.reaccionar(error);
+                    });
                 }
             });
 

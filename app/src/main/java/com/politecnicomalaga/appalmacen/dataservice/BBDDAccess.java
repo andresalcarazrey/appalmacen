@@ -35,9 +35,9 @@ public class BBDDAccess {
             PreparedStatement pstmt = null;
             ResultSet rs = null;
             try {
-                Class.forName("com.mysql.jdbc.Driver");
+                //Class.forName("com.mysql.jdbc.Driver");
                 conn = DriverManager.getConnection(URL, USER, PASS);
-                String sql = "SELECT codigo, descripcion, precio, stock de productos";
+                String sql = "SELECT codigo, descripcion, precio, stock from Productos";
 
                 pstmt = conn.prepareStatement(sql);
                 rs = pstmt.executeQuery();
@@ -52,7 +52,8 @@ public class BBDDAccess {
                 if (callback != null)
                     callback.onSuccess(listaProductos);
 
-            } catch (Exception e) {
+            } catch (SQLException e) {
+                int i = 0;
                 if (callback != null) callback.onError(e.getMessage());
             } finally {
                 try {
@@ -83,7 +84,7 @@ public class BBDDAccess {
 // Cargar el driver (necesario en algunas versiones de Android)
                 Class.forName("com.mysql.jdbc.Driver");
                 conn = DriverManager.getConnection(URL, USER, PASS);
-                String sql = "INSERT INTO productos"
+                String sql = "INSERT INTO Productos"
 
                         + " (codigo, descripcion, precio, stock) VALUES (?, ?, ?, ?)";
 

@@ -22,9 +22,6 @@ public class Producto {
     }
 
     public void setCodigoProducto(String codigoProducto) {
-        if (codigoProducto == null || codigoProducto.length() < 8 || codigoProducto.length() > 16) {
-            throw new IllegalArgumentException("El código de producto debe ser alfanumérico y tener entre 8 y 16 caracteres.");
-        }
         this.codigoProducto = codigoProducto;
     }
 
