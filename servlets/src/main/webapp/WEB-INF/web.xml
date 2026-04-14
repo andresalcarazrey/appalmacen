@@ -7,7 +7,7 @@
 
   <servlet>
     <servlet-name>ListarProductosServlet</servlet-name>
-    <servlet-class>servlet.ListarProductosServlet</servlet-class>
+    <servlet-class>com.politecnicomalaga.appalmacen.view.ListarProductosServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ListarProductosServlet</servlet-name>
@@ -16,10 +16,19 @@
 
   <servlet>
     <servlet-name>BuscarProductoServlet</servlet-name>
-    <servlet-class>servlet.BuscarProductoServlet</servlet-class>
+    <servlet-class>com.politecnicomalaga.appalmacen.view.BuscarProductosServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>BuscarProductoServlet</servlet-name>
     <url-pattern>/buscar</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>InsertarProductosServlet</servlet-name>
+    <servlet-class>com.politecnicomalaga.appalmacen.view.InsertarProductosServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>InsertarProductosServlet</servlet-name>
+    <url-pattern>/insertar</url-pattern>
   </servlet-mapping>
 </web-app>

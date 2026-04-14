@@ -2,104 +2,76 @@ package com.politecnicomalaga.appalmacen.controller;
 
 
 
+import com.google.gson.Gson;
 import com.politecnicomalaga.appalmacen.dataservice.BBDDAccess;
 import com.politecnicomalaga.appalmacen.model.*;
+
+import java.sql.SQLException;
 import java.util.*;
 
 
-public class Controlador {
-    // instance variables
-    private List<Producto> products;
-    private List<Producto> expproducts;
-    final private List<Map<String,String>> dataResult = new ArrayList<>();
+public class Controlador implements DataAccess{
 
-    
-    //Singleton poner aquí
-    private static Controlador singleton;
-    
-    private Controlador() {
-        //BBDDAccess miBBDD = new BBDDAccess();
 
-        products = new ArrayList<>();//DataAccess_Old.loadData();
-        expproducts = new ArrayList<>();
-        //Poner código aquí para que la lista inicial de productos esté
-        //siempre disponible cuando se arranca el programa.
+    public Controlador() {
+
     }
-    public List<Producto> getProducts(){
-        return products;
+
+
+    //Ahora, el controlador sólo se preocupa de ser el intermediario entre
+    //la vista (servlet) y el acceso a datos, usando clases sencillas del modelo
+    //Para que la vista desde el backend sea independiente de formato, usamos JSON
+    @Override
+    public String listAllProducts() {
+        BBDDAccess bbdd = new BBDDAccess();
+
+        try {
+            List<Producto> listaProd = bbdd.listarTodos();
+
+            return (new Gson()).toJson(listaProd);
+
+        } catch (SQLException se) {
+            return "List Products: " + se.getMessage();
+        } catch (ClassNotFoundException c) {
+            return "List Products: " + c.getMessage();
+        }
+
     }
-    public List<Producto> getExpProducts(){
-        return expproducts;
-    }
-    public static Controlador getSingleton() {
-        // put your code here
-        if (singleton == null) singleton = new Controlador();
-        return singleton;
-    }
-    public void addProduct(Map<String,String> datos) {
 
-        boolean resultado = true;
+    @Override
+    public String findProductsByCode(String code) {
+        BBDDAccess bbdd = new BBDDAccess();
 
-        Producto p = new Producto(datos.get("code"),datos.get("descripcion"),Double.parseDouble(datos.get("precio")),Integer.parseInt(datos.get("stock")));
+        try {
+            List<Producto> listaProd = bbdd.buscarPorCodigo(code);
 
-        resultado = products.add(p);
-        if (resultado) {
-            BBDDAccess miBBDD = new BBDDAccess();
-            miBBDD.insertarProducto(datos.get("code"), datos.get("descripcion"), Double.parseDouble(datos.get("precio")), Integer.parseInt(datos.get("stock")), new BBDDAccess.OnBBDDCallback() {
-                @Override
-                public void onSuccess(List<Producto> data) {
+            return (new Gson()).toJson(listaProd);
 
-
-                }
-
-                @Override
-                public void onError(String error) {
-
-                }
-            });
-            if (!resultado) {
-                products.remove(p);
-            }
+        } catch (SQLException se) {
+            return "Find Products: " + code + " - "  + se.getMessage();
+        } catch (ClassNotFoundException c) {
+            return "Find Products: " + code + " - "+ c.getMessage();
         }
     }
 
-    public void listarTodos() {
+    @Override
+    public String insertProduct(String jsonProducto, boolean perecedero) {
+        Gson gson = new Gson();
+        Producto producto;
+        if (perecedero) {
+            producto = gson.fromJson(jsonProducto, ProductoPerecedero.class);
+        } else producto = gson.fromJson(jsonProducto, Producto.class);
+        BBDDAccess bbdd = new BBDDAccess();
 
-        dataResult.clear();
+        try {
+            bbdd.insertarProducto(producto);
 
-        BBDDAccess miBBDD = new BBDDAccess();
-        miBBDD.listarTodos(new BBDDAccess.OnBBDDCallback() {
-                @Override
-                public void onSuccess(List<Producto> data) {
-                    //Actualizamos el modelo
-                    products = data;
-                    //Convertir una lista de productos en una lista de maps
-                    for(Producto p: data) {
-                        Map<String,String> productoMapeado = new HashMap<>();
-                        productoMapeado.put("d",p.getDescripcion());
-                        productoMapeado.put("p",String.valueOf(p.getPrecio()));
-                        productoMapeado.put("s",""+p.getDescripcion());
-                        productoMapeado.put("c",p.getCodigoProducto());
-                        dataResult.add(productoMapeado);
-                        //Avisar AHORA (estoy en el futuro!!!!!)
-                        // al controlador y a la activity (Vista)
-
-                    }
-
-
-                }
-
-                @Override
-                public void onError(String error) {
-
-                }
-            });
-
-
+        } catch (SQLException se) {
+            String result = "Product: " + producto.getCodigoProducto() +  "Insert: " + jsonProducto + "Expired:" + perecedero + " - " + se.getMessage();;
+            return result;
+        } catch (ClassNotFoundException c) {
+            return "Insert: " + jsonProducto + " - " + c.getMessage();
+        }
+        return "Inserción realizada OK!";
     }
-
-    public List<Map<String,String>> getData() {
-        return dataResult;
-    }
-
 }

@@ -3,26 +3,27 @@ package com.politecnicomalaga.appalmacen.model;
 //Clase producto
 
 public class Producto {
-    private String codigoProducto;
+    private String codigo;
     private String descripcion;
     private double precio;
     private int stock;
 
     // Constructor
-    public Producto(String codigoProducto, String descripcion, double precio, int stock) {
-        setCodigoProducto(codigoProducto); // Usamos el setter para validar
+    public Producto(String codigo, String descripcion, double precio, int stock) {
+        setCodigoProducto(codigo); // Usamos el setter para validar
         this.descripcion = descripcion;
         this.precio = precio;
         this.stock = stock;
     }
 
+
     // Getters y Setters
     public String getCodigoProducto() {
-        return codigoProducto;
+        return codigo;
     }
 
     public void setCodigoProducto(String codigoProducto) {
-        this.codigoProducto = codigoProducto;
+        this.codigo = codigoProducto;
     }
 
     public String getDescripcion() {
@@ -53,7 +54,7 @@ public class Producto {
     // Método para mostrar la información del producto. CSV Plus
     public String toString() {
         return "Producto," +
-                codigoProducto + "," +
+                codigo + "," +
                 descripcion + "," +
                 precio + "," +
                 stock;
