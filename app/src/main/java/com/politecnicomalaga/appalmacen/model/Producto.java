@@ -3,26 +3,26 @@ package com.politecnicomalaga.appalmacen.model;
 //Clase producto
 
 public class Producto {
-    private String codigoProducto;
+    private String codigo;
     private String descripcion;
     private double precio;
     private int stock;
 
     // Constructor
-    public Producto(String codigoProducto, String descripcion, double precio, int stock) {
-        setCodigoProducto(codigoProducto); // Usamos el setter para validar
+    public Producto(String codigo, String descripcion, double precio, int stock) {
+        setCodigoProducto(codigo); // Usamos el setter para validar
         this.descripcion = descripcion;
         this.precio = precio;
         this.stock = stock;
     }
 
     // Getters y Setters
-    public String getCodigoProducto() {
-        return codigoProducto;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setCodigoProducto(String codigoProducto) {
-        this.codigoProducto = codigoProducto;
+    public void setCodigoProducto(String codigo) {
+        this.codigo = codigo;
     }
 
     public String getDescripcion() {
@@ -53,14 +53,14 @@ public class Producto {
     // Método para mostrar la información del producto. CSV Plus
     public String toString() {
         return "Producto," +
-                codigoProducto + "," +
+                codigo + "," +
                 descripcion + "," +
                 precio + "," +
                 stock;
     }
     
     public static Producto cargarDesdeCSVPlus(String data) {
-        String codigoProducto = "";
+        String codigo = "";
         String descripcion = "";
         double precio = 0;
         int stock = 0;
@@ -78,7 +78,7 @@ public class Producto {
         
             switch (key) {
                 case "codigoProducto":
-                    codigoProducto = value;
+                    codigo = value;
                     break;
                 case "descripcion":
                     descripcion = value;
@@ -96,9 +96,9 @@ public class Producto {
             }  
 
         if (expDate != null) {
-            return new ProductoPerecedero(codigoProducto, descripcion, precio, stock, expDate);
+            return new ProductoPerecedero(codigo, descripcion, precio, stock, expDate);
         } else {
-            return new Producto(codigoProducto, descripcion, precio, stock);
+            return new Producto(codigo, descripcion, precio, stock);
         }
     }
 }

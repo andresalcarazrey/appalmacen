@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         //añadir el producto al modelo
         Controlador.getSingleton(this).addProduct(datos);
-        Controlador.getSingleton(this).listarTodos();
+        this.reaccionar("");
 
 
     }

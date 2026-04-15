@@ -20,7 +20,7 @@ public class BuscarProductosServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String codigo = request.getParameter("codigo");
-        response.setContentType("text/json");
+        response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
         out.println((new Controlador()).findProductsByCode(codigo));

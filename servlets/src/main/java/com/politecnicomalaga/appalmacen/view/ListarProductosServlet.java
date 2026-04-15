@@ -17,7 +17,7 @@ public class ListarProductosServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/json");
+        response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
         out.println((new Controlador()).listAllProducts());

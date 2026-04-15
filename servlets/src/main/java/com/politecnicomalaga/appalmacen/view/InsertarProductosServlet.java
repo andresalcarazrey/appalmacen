@@ -21,6 +21,7 @@ public class InsertarProductosServlet extends HttpServlet {
         String precio = request.getParameter("precio");
         String stock = request.getParameter("stock");
         String fecha = request.getParameter("fechaCad");
+        boolean bExpired = (fecha!=null);
 
         Map<String,String> miJsonMap = new HashMap<>();
 
@@ -28,15 +29,17 @@ public class InsertarProductosServlet extends HttpServlet {
         miJsonMap.put("descripcion",descripcion);
         miJsonMap.put("stock",stock);
         miJsonMap.put("precio",precio);
-        if (!fecha.isEmpty()) miJsonMap.put("fechaCad",fecha);
+        if (bExpired) {
+            miJsonMap.put("fechaCad",fecha);
+        }
 
         Gson gson = new Gson();
         String jsonProducto = gson.toJson(miJsonMap);
 
-        response.setContentType("text/json");
+        response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
 
-        out.println("{"+(new Controlador()).insertProduct(jsonProducto,!fecha.isEmpty())+"}");
+        out.println("{"+(new Controlador()).insertProduct(jsonProducto,bExpired)+"}");
     }
 }

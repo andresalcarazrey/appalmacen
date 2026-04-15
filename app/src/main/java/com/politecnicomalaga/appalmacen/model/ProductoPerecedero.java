@@ -15,7 +15,7 @@ public class ProductoPerecedero extends Producto {
     @Override
     public String toString() {
         return "ProductoPerecedero," +
-                getCodigoProducto() + "," +
+                getCodigo() + "," +
                 getDescripcion() + "," +
                 getPrecio() + "," +
                 getStock() + "," +
