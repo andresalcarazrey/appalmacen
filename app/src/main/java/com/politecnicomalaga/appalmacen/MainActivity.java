@@ -62,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void listProduct(View v) {
+        Controlador.getSingleton(this).listarTodos();
+    }
+
     public void reaccionar(String error) {
 
         if (error.isEmpty()) {

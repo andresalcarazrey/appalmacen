@@ -31,7 +31,8 @@ public class BBDDAccess {
     //No bloquear la pantalla del móvil. Cuando la respuesta
     //esté disponible, la mandamos al hilo de la GUI
     private final Controlador c;
-    private static final String IP = "192.168.1.138:8080";
+    //private static final String IP = "192.168.1.138:8080";
+    private static final String IP = "10.0.2.2:8080";
 
     public BBDDAccess(Controlador c) {
         this.c = c;
